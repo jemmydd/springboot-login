@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = RuntimeException.class)
 public class UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+//    @Autowired
+//    private UserMapper userMapper;
     /**
      * 注册
      * @param user 参数封装
@@ -24,14 +24,15 @@ public class UserService {
         result.setSuccess(false);
         result.setDetail(null);
         try {
-            User existUser = userMapper.findUserByName(user.getUsername());
+            User existUser = new User();
+//            User existUser = userMapper.findUserByName(user.getUsername());
             if(existUser != null){
                 //如果用户名已存在
                 result.setMsg("用户名已存在");
             }else{
                 //把正常密码转为 Md5密文
                 user.setPassword(MD5.getMd5(user.getPassword()));
-                userMapper.regist(user);
+//                userMapper.regist(user);
                 //System.out.println(user.getId());
                 result.setMsg("注册成功");
                 result.setSuccess(true);
@@ -55,7 +56,8 @@ public class UserService {
         try {
             //把Md5密文 转为正常密码
             user.setPassword(MD5.getMd5(user.getPassword()));
-            Long userId= userMapper.login(user);
+            Long userId = 0L;
+//            Long userId= userMapper.login(user);
             if(userId == null){
                 result.setMsg("用户名或密码错误");
             }else{
